@@ -49,6 +49,48 @@ class Lines(Board):
         super().__init__(width, height)
         self.selected_cell = None
 
+    def has_path(self, x1, y1, x2, y2):
+        return True
+
+
+    def on_click(self, cell):
+        x = cell[0]
+        y = cell[1]
+        if self.selected_cell is None:
+
+            if self.board[y][x] == 1:
+                self.selected_cell = x, y
+            else:
+                self.board[y][x] = 1
+
+        else:
+            if self.selected_cell == (x, y):
+                self.selected_cell = None
+                return
+
+            x2 = self.selected_cell[0]
+            y2 = self.selected_cell[1]
+            self.board[y][x] = 1
+            self.board[y2][x2] = 0
+            self.selected_cell = None
+
+    def render(self, screen):
+        for y in range(self.height):
+            for x in range(self.width):
+
+                if self.board[y][x] == 1:
+                    color = pygame.Color("blue")
+                    pygame.draw.ellipse(screen, color,
+                                        (x * self.cell_size + self.left,
+                                         y * self.cell_size + self.top, self.cell_size,
+                                         self.cell_size))
+
+                pygame.draw.rect(screen, pygame.Color(255, 255, 255),
+                                 (x * self.cell_size + self.left, y * self.cell_size + self.top,
+                                  self.cell_size,
+                                  self.cell_size), 1)
+
+
 
 def main():
     pygame.init()
