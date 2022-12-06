@@ -80,6 +80,25 @@ class Minesweeper(Board):
                                   self.cell_size,
                                   self.cell_size), 1)
 
+    def open_cell(self, cell):
+        x, y = cell
+
+        # проверяем на бомбу
+        if self.board[y][x] == 10:
+            return
+
+        s = 0
+        for dy in range(-1, 2):
+            for dx in range(-1, 2):
+                if x + dx < 0 or x + dx >= self.width or y + dy < 0 or y + dy >= self.height:
+                    continue
+                if self.board[y + dy][x + dx] == 10:
+                    s += 1
+        self.board[y][x] = s
+
+    def on_click(self, cell):
+        self.open_cell(cell)
+
 
 def main():
     pygame.init()
