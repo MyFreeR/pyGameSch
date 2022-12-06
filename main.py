@@ -58,6 +58,28 @@ class Minesweeper(Board):
                 self.board[y][x] = 10
                 i += 1
 
+    def render(self, screen):
+        for y in range(self.height):
+            for x in range(self.width):
+
+                # мина - красный квадрат
+                if self.board[y][x] == 10:
+                    pygame.draw.rect(screen, pygame.Color("red"),
+                                     (x * self.cell_size + self.left, y * self.cell_size + self.top,
+                                      self.cell_size,
+                                      self.cell_size))
+
+                if self.board[y][x] >= 0 and self.board[y][x] != 10:
+                    font = pygame.font.Font(None, self.cell_size - 6)
+                    text = font.render(str(self.board[y][x]), 1, (100, 255, 100))
+                    screen.blit(text, (
+                        x * self.cell_size + self.left + 3, y * self.cell_size + self.top + 3))
+
+                pygame.draw.rect(screen, pygame.Color(255, 255, 255),
+                                 (x * self.cell_size + self.left, y * self.cell_size + self.top,
+                                  self.cell_size,
+                                  self.cell_size), 1)
+
 
 def main():
     pygame.init()
